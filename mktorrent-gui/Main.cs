@@ -20,8 +20,7 @@ namespace mktorrent_gui
 
         private void btnBrowseSource_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Do you want to add a Folder?", "Select File/Folder", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+           if (radFolder.Checked)
             {
                 CommonOpenFileDialog theDialog = new CommonOpenFileDialog();
                 theDialog.IsFolderPicker = true;
@@ -33,11 +32,11 @@ namespace mktorrent_gui
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Select File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Select Folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-            else if (result == DialogResult.No)
+            else if (radFile.Checked)
             {
                 OpenFileDialog theDialog = new OpenFileDialog();
                 theDialog.Title = "Select File";
@@ -60,7 +59,7 @@ namespace mktorrent_gui
         {
             if (getTrackers().Length < 1)
             {
-                MessageBox.Show("Tracker List is empty", "Creating Torrent File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Tracker List is empty. Please add trackers.", "Creating Torrent File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

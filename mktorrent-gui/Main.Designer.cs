@@ -44,6 +44,8 @@
             this.txtTracker = new System.Windows.Forms.RichTextBox();
             this.txtWeb = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radFolder = new System.Windows.Forms.RadioButton();
+            this.radFile = new System.Windows.Forms.RadioButton();
             this.btnBrowseSource = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCreate = new System.Windows.Forms.Button();
@@ -84,7 +86,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(11, 19);
+            this.label7.Location = new System.Drawing.Point(8, 21);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(69, 13);
             this.label7.TabIndex = 34;
@@ -137,7 +139,7 @@
             // 
             // txtSourcePath
             // 
-            this.txtSourcePath.Location = new System.Drawing.Point(105, 16);
+            this.txtSourcePath.Location = new System.Drawing.Point(102, 18);
             this.txtSourcePath.Name = "txtSourcePath";
             this.txtSourcePath.Size = new System.Drawing.Size(211, 20);
             this.txtSourcePath.TabIndex = 10;
@@ -160,7 +162,7 @@
             // 
             this.chkSubItems.AutoSize = true;
             this.chkSubItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkSubItems.Location = new System.Drawing.Point(108, 48);
+            this.chkSubItems.Location = new System.Drawing.Point(269, 56);
             this.chkSubItems.Name = "chkSubItems";
             this.chkSubItems.Size = new System.Drawing.Size(95, 17);
             this.chkSubItems.TabIndex = 12;
@@ -180,7 +182,7 @@
             // chkPrivate
             // 
             this.chkPrivate.AutoSize = true;
-            this.chkPrivate.Location = new System.Drawing.Point(209, 48);
+            this.chkPrivate.Location = new System.Drawing.Point(128, 408);
             this.chkPrivate.Name = "chkPrivate";
             this.chkPrivate.Size = new System.Drawing.Size(96, 17);
             this.chkPrivate.TabIndex = 28;
@@ -208,19 +210,42 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.radFolder);
+            this.panel1.Controls.Add(this.radFile);
             this.panel1.Controls.Add(this.btnBrowseSource);
             this.panel1.Controls.Add(this.txtSourcePath);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.chkSubItems);
-            this.panel1.Controls.Add(this.chkPrivate);
-            this.panel1.Location = new System.Drawing.Point(15, 11);
+            this.panel1.Location = new System.Drawing.Point(15, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(375, 80);
+            this.panel1.Size = new System.Drawing.Size(375, 90);
             this.panel1.TabIndex = 41;
+            // 
+            // radFolder
+            // 
+            this.radFolder.AutoSize = true;
+            this.radFolder.Location = new System.Drawing.Point(178, 55);
+            this.radFolder.Name = "radFolder";
+            this.radFolder.Size = new System.Drawing.Size(87, 17);
+            this.radFolder.TabIndex = 36;
+            this.radFolder.Text = "Select Folder";
+            this.radFolder.UseVisualStyleBackColor = true;
+            // 
+            // radFile
+            // 
+            this.radFile.AutoSize = true;
+            this.radFile.Checked = true;
+            this.radFile.Location = new System.Drawing.Point(100, 55);
+            this.radFile.Name = "radFile";
+            this.radFile.Size = new System.Drawing.Size(74, 17);
+            this.radFile.TabIndex = 35;
+            this.radFile.TabStop = true;
+            this.radFile.Text = "Select File";
+            this.radFile.UseVisualStyleBackColor = true;
             // 
             // btnBrowseSource
             // 
-            this.btnBrowseSource.Location = new System.Drawing.Point(322, 15);
+            this.btnBrowseSource.Location = new System.Drawing.Point(319, 17);
             this.btnBrowseSource.Name = "btnBrowseSource";
             this.btnBrowseSource.Size = new System.Drawing.Size(30, 22);
             this.btnBrowseSource.TabIndex = 11;
@@ -237,13 +262,14 @@
             this.panel2.Controls.Add(this.cmbxPieceSize);
             this.panel2.Controls.Add(this.txtTracker);
             this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.chkPrivate);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.chkDate);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.txtComment);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label12);
-            this.panel2.Location = new System.Drawing.Point(15, 102);
+            this.panel2.Location = new System.Drawing.Point(15, 115);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(375, 450);
             this.panel2.TabIndex = 42;
@@ -264,7 +290,7 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
             this.lblNodes});
-            this.statusStrip.Location = new System.Drawing.Point(0, 567);
+            this.statusStrip.Location = new System.Drawing.Point(0, 587);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(404, 24);
             this.statusStrip.SizingGrip = false;
@@ -295,7 +321,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 591);
+            this.ClientSize = new System.Drawing.Size(404, 611);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -340,6 +366,8 @@
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblNodes;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private System.Windows.Forms.RadioButton radFolder;
+        private System.Windows.Forms.RadioButton radFile;
     }
 }
 
