@@ -43,18 +43,18 @@
             this.chkPrivate = new System.Windows.Forms.CheckBox();
             this.txtTracker = new System.Windows.Forms.RichTextBox();
             this.txtWeb = new System.Windows.Forms.RichTextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radFolder = new System.Windows.Forms.RadioButton();
             this.radFile = new System.Windows.Forms.RadioButton();
             this.btnBrowseSource = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnCreate = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblNodes = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,7 +86,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(8, 21);
+            this.label7.Location = new System.Drawing.Point(8, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(69, 13);
             this.label7.TabIndex = 34;
@@ -139,7 +139,7 @@
             // 
             // txtSourcePath
             // 
-            this.txtSourcePath.Location = new System.Drawing.Point(102, 18);
+            this.txtSourcePath.Location = new System.Drawing.Point(102, 21);
             this.txtSourcePath.Name = "txtSourcePath";
             this.txtSourcePath.Size = new System.Drawing.Size(211, 20);
             this.txtSourcePath.TabIndex = 10;
@@ -207,19 +207,20 @@
             this.txtWeb.TabIndex = 20;
             this.txtWeb.Text = "";
             // 
-            // panel1
+            // groupBox1
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.radFolder);
-            this.panel1.Controls.Add(this.radFile);
-            this.panel1.Controls.Add(this.btnBrowseSource);
-            this.panel1.Controls.Add(this.txtSourcePath);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.chkSubItems);
-            this.panel1.Location = new System.Drawing.Point(15, 10);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(375, 90);
-            this.panel1.TabIndex = 41;
+            this.groupBox1.Controls.Add(this.radFolder);
+            this.groupBox1.Controls.Add(this.radFile);
+            this.groupBox1.Controls.Add(this.btnBrowseSource);
+            this.groupBox1.Controls.Add(this.txtSourcePath);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.chkSubItems);
+            this.groupBox1.Location = new System.Drawing.Point(15, 10);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(375, 90);
+            this.groupBox1.TabIndex = 41;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Source";
             // 
             // radFolder
             // 
@@ -245,7 +246,7 @@
             // 
             // btnBrowseSource
             // 
-            this.btnBrowseSource.Location = new System.Drawing.Point(319, 17);
+            this.btnBrowseSource.Location = new System.Drawing.Point(319, 20);
             this.btnBrowseSource.Name = "btnBrowseSource";
             this.btnBrowseSource.Size = new System.Drawing.Size(30, 22);
             this.btnBrowseSource.TabIndex = 11;
@@ -253,26 +254,27 @@
             this.btnBrowseSource.UseVisualStyleBackColor = true;
             this.btnBrowseSource.Click += new System.EventHandler(this.btnBrowseSource_Click);
             // 
-            // panel2
+            // groupBox2
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.btnCreate);
-            this.panel2.Controls.Add(this.txtSource);
-            this.panel2.Controls.Add(this.txtWeb);
-            this.panel2.Controls.Add(this.cmbxPieceSize);
-            this.panel2.Controls.Add(this.txtTracker);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.chkPrivate);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.chkDate);
-            this.panel2.Controls.Add(this.label10);
-            this.panel2.Controls.Add(this.txtComment);
-            this.panel2.Controls.Add(this.label11);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Location = new System.Drawing.Point(15, 115);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(375, 450);
-            this.panel2.TabIndex = 42;
+            this.groupBox2.Controls.Add(this.btnCreate);
+            this.groupBox2.Controls.Add(this.txtSource);
+            this.groupBox2.Controls.Add(this.txtWeb);
+            this.groupBox2.Controls.Add(this.cmbxPieceSize);
+            this.groupBox2.Controls.Add(this.txtTracker);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.chkPrivate);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.chkDate);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.txtComment);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Location = new System.Drawing.Point(15, 115);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(375, 450);
+            this.groupBox2.TabIndex = 42;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Options";
             // 
             // btnCreate
             // 
@@ -323,18 +325,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 611);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Main";
             this.ShowIcon = false;
             this.Text = "Create Torrent";
             this.Load += new System.EventHandler(this.Main_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -358,8 +360,8 @@
         private System.Windows.Forms.CheckBox chkPrivate;
         private System.Windows.Forms.RichTextBox txtTracker;
         private System.Windows.Forms.RichTextBox txtWeb;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.Button btnBrowseSource;
         private System.Windows.Forms.StatusStrip statusStrip;
