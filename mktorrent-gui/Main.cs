@@ -8,6 +8,8 @@ namespace mktorrent_gui
 {
     public partial class Main : Form
     {
+        private int total;
+
         public Main()
         {
             InitializeComponent();
@@ -210,12 +212,12 @@ namespace mktorrent_gui
                 string[] dirs = Directory.GetDirectories(torrent.sourcePath);
                 string[] fi = Directory.GetFiles(torrent.sourcePath);
                 int count = 0;
-                int total = dirs.Length + fi.Length;
+                total = dirs.Length + fi.Length;
 
                 foreach (string s in dirs)
                 {
                     count++;
-                    backgroundWorker.ReportProgress(0, count + " / " + total);
+                    backgroundWorker.ReportProgress(count);
                     torrent.sourcePath = s;
                     torrent.name = Path.GetFileName(s);
                     torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
@@ -225,7 +227,7 @@ namespace mktorrent_gui
                 foreach (string s in fi)
                 {
                     count++;
-                    backgroundWorker.ReportProgress(0, count + " / " + total);
+                    backgroundWorker.ReportProgress(count);
                     torrent.sourcePath = s;
                     torrent.name = Path.GetFileName(s);
                     torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
@@ -240,7 +242,7 @@ namespace mktorrent_gui
 
         private void backgroundWorker_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
-            lblNodes.Text = e.UserState.ToString();
+            lblNodes.Text = e.ProgressPercentage + " / " + total;
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
