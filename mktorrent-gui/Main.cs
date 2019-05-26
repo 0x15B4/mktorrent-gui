@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace mktorrent_gui
@@ -67,17 +68,17 @@ namespace mktorrent_gui
 
             if (File.Exists(txtSourcePath.Text))
             {
-                isFile();
+                isAFile();
             }
             else if (Directory.Exists(txtSourcePath.Text))
             {
                 if (chkSubItems.Checked)
                 {
-                    isFolder();
+                    isAFolder();
                 }
                 else
                 {
-                    isFile();
+                    isAFile();
                 }
             }
             else
@@ -86,7 +87,7 @@ namespace mktorrent_gui
             }
         }
 
-        private void isFolder()
+        private void isAFolder()
         {
             CommonOpenFileDialog theDialog = new CommonOpenFileDialog();
             theDialog.IsFolderPicker = true;
@@ -107,7 +108,7 @@ namespace mktorrent_gui
             }
         }
 
-        private void isFile()
+        private void isAFile()
         {
             SaveFileDialog theDialog = new SaveFileDialog();
             theDialog.Title = "Create Torrent";
@@ -132,54 +133,90 @@ namespace mktorrent_gui
 
         private void mktorrent(TorrentInfo torrent)
         {
-            ProcessStartInfo cmdStartInfo = new ProcessStartInfo();
-            cmdStartInfo.FileName = "mktorrent.exe";
-            cmdStartInfo.RedirectStandardOutput = true;
-            cmdStartInfo.RedirectStandardError = true;
-            cmdStartInfo.RedirectStandardInput = true;
-            cmdStartInfo.UseShellExecute = false;
-            cmdStartInfo.CreateNoWindow = true;
-            string arguments = "";
-
-            foreach (string tracker in torrent.trackers.Split(','))
+            if (File.Exists("mktorrent.exe"))
             {
-                arguments += "-a " + tracker + " ";
+                ProcessStartInfo cmdStartInfo = new ProcessStartInfo();
+                StringBuilder arguments = new StringBuilder();
+
+                cmdStartInfo.FileName = "mktorrent.exe";
+                cmdStartInfo.RedirectStandardOutput = true;
+                cmdStartInfo.RedirectStandardError = true;
+                cmdStartInfo.RedirectStandardInput = true;
+                cmdStartInfo.UseShellExecute = false;
+                cmdStartInfo.CreateNoWindow = true;
+
+                foreach (string tracker in torrent.trackers.Split(','))
+                {
+                    arguments.Append("-a ");
+                    arguments.Append(tracker);
+                    arguments.Append(" ");
+                }
+
+                if (torrent.comments.Trim(' ').Length > 0)
+                {
+                    arguments.Append("-c \"");
+                    arguments.Append(torrent.comments);
+                    arguments.Append("\" ");
+                }
+
+                if (!torrent.date)
+                {
+                    arguments.Append("-d ");
+                }
+
+                if (torrent.pieces > 0)
+                {
+                    arguments.Append("-l ");
+                    arguments.Append(torrent.pieces + 14);
+                    arguments.Append(" ");
+                }
+
+                arguments.Append("-n \"");
+                arguments.Append(torrent.name);
+                arguments.Append("\" ");
+
+                arguments.Append("-o \"");
+                arguments.Append(torrent.destPath);
+                arguments.Append("\" ");
+
+                if (torrent.privateTorrent)
+                {
+                    arguments.Append("-p ");
+                }
+
+                if (torrent.source.Trim(' ').Length > 0)
+                {
+                    arguments.Append("-s \"");
+                    arguments.Append(torrent.source);
+                    arguments.Append("\" ");
+                }
+
+                if (torrent.webURLs.Trim(' ').Length > 0)
+                {
+                    arguments.Append("-w ");
+                    arguments.Append(torrent.webURLs);
+                }
+
+                arguments.Append(" \"");
+                arguments.Append(torrent.sourcePath);
+                arguments.Append("\"");
+
+                cmdStartInfo.Arguments = arguments.ToString();
+
+                Process cmdProcess = new Process();
+                cmdProcess.StartInfo = cmdStartInfo;
+                cmdProcess.ErrorDataReceived += cmd_Error;
+                cmdProcess.OutputDataReceived += new DataReceivedEventHandler(cmd_DataReceived);
+                cmdProcess.EnableRaisingEvents = true;
+                cmdProcess.Start();
+                cmdProcess.BeginOutputReadLine();
+                cmdProcess.BeginErrorReadLine();
+                cmdProcess.WaitForExit();
             }
-
-            if (torrent.comments.Trim(' ').Length > 0)
-                arguments += "-c \"" + torrent.comments + "\" ";
-
-            if (!torrent.date)
-                arguments += "-d ";
-
-            if (torrent.pieces > 0)
-                arguments += "-l " + (torrent.pieces + 14) + " ";
-
-            arguments += "-n \"" + torrent.name + "\" ";
-
-            arguments += "-o \"" + torrent.destPath + "\" ";
-
-            if (torrent.privateTorrent)
-                arguments += "-p ";
-
-            if (torrent.source.Trim(' ').Length > 0)
-                arguments += "-s \"" + torrent.source + "\" ";
-
-            if (torrent.webURLs.Trim(' ').Length > 0)
-                arguments += "-w " + torrent.webURLs;
-
-            arguments += " \"" + torrent.sourcePath + "\"";
-
-            cmdStartInfo.Arguments = arguments;
-            Process cmdProcess = new Process();
-            cmdProcess.StartInfo = cmdStartInfo;
-            cmdProcess.ErrorDataReceived += cmd_Error;
-            cmdProcess.OutputDataReceived += new DataReceivedEventHandler(cmd_DataReceived);
-            cmdProcess.EnableRaisingEvents = true;
-            cmdProcess.Start();
-            cmdProcess.BeginOutputReadLine();
-            cmdProcess.BeginErrorReadLine();
-            cmdProcess.WaitForExit();
+            else
+            {
+                throw new FileNotFoundException("mktorrent.exe is missing");
+            }
         }
 
         private void cmd_DataReceived(object sender, DataReceivedEventArgs e)
@@ -203,40 +240,46 @@ namespace mktorrent_gui
 
         private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            TorrentInfo torrent = (TorrentInfo)e.Argument;
+            try {
+                TorrentInfo torrent = (TorrentInfo)e.Argument;
 
-            string destPath = (torrent.destPath.EndsWith("\\")) ? torrent.destPath : (torrent.destPath + "\\");
+                string destPath = (torrent.destPath.EndsWith("\\")) ? torrent.destPath : (torrent.destPath + "\\");
 
-            if (torrent.subItems)
-            {
-                string[] dirs = Directory.GetDirectories(torrent.sourcePath);
-                string[] fi = Directory.GetFiles(torrent.sourcePath);
-                int count = 0;
-                total = dirs.Length + fi.Length;
-
-                foreach (string s in dirs)
+                if (torrent.subItems)
                 {
-                    count++;
-                    backgroundWorker.ReportProgress(count);
-                    torrent.sourcePath = s;
-                    torrent.name = Path.GetFileName(s);
-                    torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
-                    mktorrent(torrent);
+                    string[] dirs = Directory.GetDirectories(torrent.sourcePath);
+                    string[] fi = Directory.GetFiles(torrent.sourcePath);
+                    int count = 0;
+                    total = dirs.Length + fi.Length;
+
+                    foreach (string s in dirs)
+                    {
+                        count++;
+                        backgroundWorker.ReportProgress(count);
+                        torrent.sourcePath = s;
+                        torrent.name = Path.GetFileName(s);
+                        torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
+                        mktorrent(torrent);
+                    }
+
+                    foreach (string s in fi)
+                    {
+                        count++;
+                        backgroundWorker.ReportProgress(count);
+                        torrent.sourcePath = s;
+                        torrent.name = Path.GetFileName(s);
+                        torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
+                        mktorrent(torrent);
+                    }
                 }
-
-                foreach (string s in fi)
+                else
                 {
-                    count++;
-                    backgroundWorker.ReportProgress(count);
-                    torrent.sourcePath = s;
-                    torrent.name = Path.GetFileName(s);
-                    torrent.destPath = destPath + Path.GetFileName(s) + ".torrent";
                     mktorrent(torrent);
                 }
             }
-            else
+            catch(Exception ex)
             {
-                mktorrent(torrent);
+                MessageBox.Show(ex.Message, "Creating Torrent File", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
