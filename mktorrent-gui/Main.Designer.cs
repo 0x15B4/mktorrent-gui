@@ -48,6 +48,7 @@
             this.radFile = new System.Windows.Forms.RadioButton();
             this.btnBrowseSource = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblPieces = new System.Windows.Forms.Label();
             this.btnCreate = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -81,6 +82,7 @@
             this.cmbxPieceSize.Name = "cmbxPieceSize";
             this.cmbxPieceSize.Size = new System.Drawing.Size(125, 21);
             this.cmbxPieceSize.TabIndex = 14;
+            this.cmbxPieceSize.SelectedIndexChanged += new System.EventHandler(this.cmbxPieceSize_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -172,7 +174,7 @@
             // chkDate
             // 
             this.chkDate.AutoSize = true;
-            this.chkDate.Location = new System.Drawing.Point(242, 34);
+            this.chkDate.Location = new System.Drawing.Point(14, 408);
             this.chkDate.Name = "chkDate";
             this.chkDate.Size = new System.Drawing.Size(119, 17);
             this.chkDate.TabIndex = 16;
@@ -182,7 +184,7 @@
             // chkPrivate
             // 
             this.chkPrivate.AutoSize = true;
-            this.chkPrivate.Location = new System.Drawing.Point(128, 408);
+            this.chkPrivate.Location = new System.Drawing.Point(134, 408);
             this.chkPrivate.Name = "chkPrivate";
             this.chkPrivate.Size = new System.Drawing.Size(96, 17);
             this.chkPrivate.TabIndex = 28;
@@ -256,6 +258,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblPieces);
             this.groupBox2.Controls.Add(this.btnCreate);
             this.groupBox2.Controls.Add(this.txtSource);
             this.groupBox2.Controls.Add(this.txtWeb);
@@ -275,6 +278,14 @@
             this.groupBox2.TabIndex = 42;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
+            // 
+            // lblPieces
+            // 
+            this.lblPieces.AutoSize = true;
+            this.lblPieces.Location = new System.Drawing.Point(238, 35);
+            this.lblPieces.Name = "lblPieces";
+            this.lblPieces.Size = new System.Drawing.Size(0, 13);
+            this.lblPieces.TabIndex = 40;
             // 
             // btnCreate
             // 
@@ -370,6 +381,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.RadioButton radFolder;
         private System.Windows.Forms.RadioButton radFile;
+        private System.Windows.Forms.Label lblPieces;
     }
 }
 
