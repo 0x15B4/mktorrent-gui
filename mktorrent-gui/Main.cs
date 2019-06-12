@@ -23,7 +23,7 @@ namespace mktorrent_gui
 
         private void btnBrowseSource_Click(object sender, EventArgs e)
         {
-           if (radFolder.Checked)
+            if (radFolder.Checked)
             {
                 CommonOpenFileDialog theDialog = new CommonOpenFileDialog();
                 theDialog.IsFolderPicker = true;
@@ -32,6 +32,10 @@ namespace mktorrent_gui
                     try
                     {
                         txtSourcePath.Text = theDialog.FileName;
+                        if (!chkSubItems.Checked)
+                        {
+                            lblPieces.Text = calculatePieces(txtSourcePath.Text) + " pieces";
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -49,6 +53,7 @@ namespace mktorrent_gui
                     try
                     {
                         txtSourcePath.Text = theDialog.FileName;
+                        lblPieces.Text = calculatePieces(txtSourcePath.Text) + " pieces";
                     }
                     catch (Exception ex)
                     {
@@ -240,7 +245,8 @@ namespace mktorrent_gui
 
         private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            try {
+            try
+            {
                 TorrentInfo torrent = (TorrentInfo)e.Argument;
 
                 string destPath = (torrent.destPath.EndsWith("\\")) ? torrent.destPath : (torrent.destPath + "\\");
@@ -277,7 +283,7 @@ namespace mktorrent_gui
                     mktorrent(torrent);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Creating Torrent File", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -326,5 +332,35 @@ namespace mktorrent_gui
             return result;
         }
 
+        private int calculatePieces(string path)
+        {
+            double pieceSize = (cmbxPieceSize.SelectedIndex == 0) ? Math.Pow(2, 18) : Math.Pow(2, cmbxPieceSize.SelectedIndex + 14);
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                double totalSize = 0;
+
+                foreach (FileInfo fi in di.GetFiles("*", SearchOption.AllDirectories))
+                {
+                    totalSize += fi.Length;
+                }
+                return (int)Math.Ceiling(totalSize / pieceSize);
+            }
+            else if (File.Exists(path))
+            {
+                FileInfo fi = new FileInfo(path);
+                return (int)Math.Ceiling(fi.Length / pieceSize);
+            }
+
+            return 0;
+        }
+
+        private void cmbxPieceSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!chkSubItems.Checked)
+            {
+                lblPieces.Text = calculatePieces(txtSourcePath.Text) + " pieces";
+            }
+        }
     }
 }
